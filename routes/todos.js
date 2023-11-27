@@ -35,5 +35,114 @@ router.post("/", (req, res) => {
   return res.json({ todo: newTodo });
 });
 
+router.get("/", (req, res) => {
+  return res.json({ todos });
+});
+
+router.get("/:todoId", (req, res) => {
+  const { todoId } = req.params;
+  //params로 주소창의 값 가져옴
+
+  //숫자인지 파악할 때 문자열로 표현되어도
+  if (isNaN(todoId)) {
+    return res.status(400).json({
+      message: "todoId is not a number.",
+    });
+  }
+
+  let existTodo;
+
+  todos.map((v, i) => {
+    if (v.id === +todoId) {
+      existTodo = v;
+    }
+  });
+
+  if (!existTodo) {
+    return res.status(400).json({
+      message: "Not exist todo.",
+    });
+  }
+
+  return res.json({ todo: existTodo });
+});
+
+router.put("/:todoId/done", (req, res) => {
+  const { todoId } = req.params;
+
+  if (isNaN(todoId)) {
+    return res.status(400).json({
+      message: "todoId is not a number.",
+    });
+  }
+
+  let updatedTodo;
+
+  todos = todos.map((v) => {
+    if (v.id === +todoId) {
+      updatedTodo = { id: v.id, title: v.title, isDone: !v.isDone };
+
+      return updatedTodo;
+    } else {
+      return v;
+    }
+  });
+
+  if (!updatedTodo) {
+    return res.status(400).json({
+      message: "Not exist todo.",
+    });
+  }
+
+  return res.json({ todo: updatedTodo });
+});
+
+router.put("/:todoId", (req, res) => {
+  const { todoId } = req.params;
+  const { title } = req.body;
+
+  if (isNaN(todoId) || !title) {
+    return res.status(400).json({
+      message: "Not exist data.",
+    });
+  }
+
+  let updatedTodo;
+
+  todos = todos.map((v) => {
+    if (v.id === +todoId) {
+      updatedTodo = { id: v.id, title, isDone: v.isDone };
+
+      return updatedTodo;
+    } else {
+      return v;
+    }
+  });
+
+  console.log(todos);
+
+  return res.json({ todo: updatedTodo });
+});
+
+router.delete("/:todoId", (req, res) => {
+  const { todoId } = req.params;
+
+  if (isNaN(todoId)) {
+    return res.status(400).json({
+      message: "Not exist data.",
+    });
+  }
+
+  todos = todos.filter((v) => {
+    if (v.id !== +todoId) {
+      return v;
+    }
+  });
+
+  console.log(todos);
+
+  return res.json({ message: "Deleted todo." });
+});
+
 //컴포넌트화 할때 익스포트 하는 거에 대응됨
 module.exports = router;
