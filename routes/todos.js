@@ -30,8 +30,6 @@ router.post("/", (req, res) => {
   //리액트는 각각 새로운 요소 만들어야 해서 ... 사용
   todos.push(newTodo);
 
-  console.log(todos);
-
   return res.json({ todo: newTodo });
 });
 
@@ -119,8 +117,6 @@ router.put("/:todoId", (req, res) => {
     }
   });
 
-  console.log(todos);
-
   return res.json({ todo: updatedTodo });
 });
 
@@ -138,8 +134,6 @@ router.delete("/:todoId", (req, res) => {
       return v;
     }
   });
-
-  console.log(todos);
 
   return res.json({ message: "Deleted todo." });
 });
