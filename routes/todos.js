@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-//이렇게 변수로 데이터 저장하면, 서버 껐다 키면 사라짐
+//이렇게 변수로 데이터 저장하면, 서버 껐다 키면 사라짐. 메모리로 저장
 let todoId = 1;
 let todos = [{ id: 1, title: "🏋️‍♀️ 청소하기", isDone: false }];
 
